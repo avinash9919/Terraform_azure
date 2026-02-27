@@ -23,3 +23,7 @@ variable "subnet_prefix"{
     description = "subnet address prefix"
     type = list(string)
 }
+
+variable "jump_allowed_ips" {
+    type = list(string)
+}

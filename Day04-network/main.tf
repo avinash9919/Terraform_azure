@@ -35,6 +35,15 @@ resource "azurerm_subnet" "jump_subnet" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
+# subnet for azure sql servers
+resource "azurerm_subnet" "pe_subnet" {
+  name                 = "snet-pe-dev"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.3.0/24"]
+  private_endpoint_network_policies = "Disabled"
+}
+
 resource "azurerm_network_security_group" "nsg" {
   name                = "nsg-db-dev"
   location            = azurerm_resource_group.rg.location
@@ -82,7 +91,7 @@ resource "azurerm_network_security_rule" "allow_rdp" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "3389"
-  source_address_prefix       = "14.141.217.215"
+  source_address_prefixes     = var.jump_allowed_ips
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.rg.name
   network_security_group_name = azurerm_network_security_group.jump_nsg.name

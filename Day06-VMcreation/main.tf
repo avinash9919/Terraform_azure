@@ -29,6 +29,13 @@ data "azurerm_subnet" "db_subnet" {
   resource_group_name  = data.azurerm_resource_group.network_rg.name
 }
 
+# Reference existing jump subnet
+data "azurerm_subnet" "jump_subnet" {
+  name                 = "snet-jump-dev"
+  virtual_network_name = "vnet-tf-dev"
+  resource_group_name  = data.azurerm_resource_group.network_rg.name
+}
+
 # Create NIC in VM resource group
 resource "azurerm_network_interface" "vm_nic" {
   name                = "nic-db-vm"
@@ -37,10 +44,20 @@ resource "azurerm_network_interface" "vm_nic" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = data.azurerm_subnet.db_subnet.id
+    subnet_id                     = data.azurerm_subnet.jump_subnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.jump_pip.id
   }
 }
+
+resource "azurerm_public_ip" "jump_pip" {
+  name                = "pip-jump-dev"
+  location            = azurerm_resource_group.vm_rg.location
+  resource_group_name = azurerm_resource_group.vm_rg.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
+
 
 # Create Windows VM
 resource "azurerm_windows_virtual_machine" "db_vm" {
@@ -67,3 +84,4 @@ resource "azurerm_windows_virtual_machine" "db_vm" {
     version   = "latest"
   }
 }
+
