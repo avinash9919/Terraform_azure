@@ -31,10 +31,15 @@ data "azurerm_subnet" "pe_subnet" {
     resource_group_name = data.azurerm_resource_group.network_rg.name
 }
 
+
+data "azurerm_virtual_network" "vnet" {
+  name                = "vnet-tf-dev"
+  resource_group_name = data.azurerm_resource_group.network_rg.name
+}
 #Create SQL Server
 
 resource "azurerm_mssql_server" "sqlserver" {
-    name = "sql-server-dev"
+    name = "sql001devci"
     resource_group_name = azurerm_resource_group.sql_rg.name
     location = azurerm_resource_group.sql_rg.location
     version = "12.0"
@@ -62,7 +67,7 @@ resource "azurerm_private_endpoint" "sql_pe" {
 
     private_service_connection {
         name                           = "sql-private-connection"
-        private_connection_resource_id = azurerm_mssql_server.sql_server.id
+        private_connection_resource_id = azurerm_mssql_server.sqlserver.id
         subresource_names              = ["sqlServer"]
         is_manual_connection           = false
     }
@@ -79,5 +84,5 @@ resource "azurerm_private_dns_zone_virtual_network_link" "sql_dns_link" {
     name                  = "sql-dns-link"
     resource_group_name   = azurerm_resource_group.sql_rg.name
     private_dns_zone_name = azurerm_private_dns_zone.sql_dns.name
-    virtual_network_id    = data.azurerm_subnet.pe_subnet.virtual_network_id
+    virtual_network_id    = data.azurerm_virtual_network.vnet.id
 }
