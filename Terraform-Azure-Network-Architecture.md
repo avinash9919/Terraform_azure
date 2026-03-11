@@ -146,3 +146,7 @@ Traffic from Internet:
 ---
 
 # 🏛 7. Current Logical Architecture
+
+## Phase 2 – Private Endpoint Architecture
+
+![Private Endpoint Architecture](docs/architecture-phase2-private-endpoint.png)

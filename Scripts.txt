@@ -1,0 +1,6 @@
+-- read Auditing files form storage
+
+SELECT *
+FROM sys.fn_get_audit_file
+('https://tfsqlauditci001.blob.core.windows.net/sqldbauditlogs/sqlprod001ci/master/SqlDbAuditing_ServerAudit/', NULL, NULL)
+order by 1 desc
