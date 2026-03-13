@@ -1,0 +1,6 @@
+location           = "centralindia"
+sql_server_name    = "sqlprod001ci"
+sql_admin_login    = "sqladminuser"
+sql_admin_password = "YourPassword123!"
+sql_database_name  = "sqldb-prod"
+sql_sku            = "Basic"
