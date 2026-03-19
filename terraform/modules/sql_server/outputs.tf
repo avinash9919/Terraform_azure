@@ -1,3 +1,4 @@
+/*
 output "sql_server_name" {
     value = azurerm_mssql_server.sqlserver.name
 }
@@ -12,4 +13,13 @@ output "sql_database_name" {
 
 output "audit_storage_account" {
   value = azurerm_storage_account.audit_logs.name
+}
+*/
+
+output "server_id" {
+    value = azurerm_mssql_server.sqlserver.id
+}
+
+output "server_name" {
+    value = azurerm_mssql_server.sqlserver.name
 }

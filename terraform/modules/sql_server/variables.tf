@@ -1,4 +1,4 @@
-variable "sql_server_name" {
+/*variable "sql_server_name" {
     description = "name of sql server"
     type = string
 }
@@ -23,4 +23,31 @@ variable "sql_admin_password" {
 
 variable "sql_sku" {
     type = string
+}
+*/
+
+### converting this in locals {} 
+
+/*variable "sql_config" {
+    description = "SQL confirguration object"
+
+    type = object({
+        server_name = string
+        database_name = string
+        admin_login =  string
+        admin_password = string
+        sku = string
+        location = string
+    })
+} */
+
+
+variable "sql_config" {
+    type = object({
+        server_name     = string
+        admin_login     = string
+        admin_password  = string
+        location        = string
+        resource_group  = string
+    })
 }

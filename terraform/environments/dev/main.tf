@@ -1,10 +1,39 @@
-module "sql_server" {
+/*module "sql_server" {
     source = "../../modules/sql_server"
 
-    sql_server_name     = var.sql_server_name
-    sql_admin_login     = var.sql_admin_login
-    sql_admin_password  = var.sql_admin_password
-    sql_database_name   = var.sql_database_name
-    sql_sku             = var.sql_sku
-    location            = var.location
+    sql_config  = var.sql_config
+}*/
+
+#============================
+/*provider "azurerm" {
+  features {}
+}*/
+
+resource "azurerm_resource_group" "rg" {
+  name     = "rg-tf-sql-dev"
+  location = var.location
+}
+
+module "sql_server" {
+  source = "../../modules/sql_server"
+
+  sql_config = {
+    server_name    = var.server_name
+    admin_login    = var.admin_login
+    admin_password = var.admin_password
+    location       = var.location
+    resource_group = azurerm_resource_group.rg.name
+  }
+}
+
+module "sql_database" {
+  source = "../../modules/sql_database"
+
+  for_each = var.databases
+
+  db_config = {
+    db_name   = each.value.name
+    server_id = module.sql_server.server_id
+    sku       = each.value.sku
+  }
 }

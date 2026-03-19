@@ -1,23 +1,23 @@
-provider "azurerm" {
+/*provider "azurerm" {
     features {}
     }
 
 
     resource "azurerm_resource_group" "sql_rg" {
     name     = "rg-tf-sql-prod"
-    location = var.location
+    location = var.sql_config.location
     }
 
     data "azurerm_client_config" "current" {}
 
 resource "azurerm_mssql_server" "sqlserver" {
-    name                         = var.sql_server_name
+    name                         = var.sql_config.server_name
     resource_group_name          = azurerm_resource_group.sql_rg.name
-    location                     = var.location
+    location                     = var.sql_config.location
     version                      = "12.0"
 
-    administrator_login          = var.sql_admin_login
-    administrator_login_password = var.sql_admin_password
+    administrator_login          = var.sql_config.admin_login
+    administrator_login_password = var.sql_config.admin_password
 
     public_network_access_enabled = false
 
@@ -46,9 +46,9 @@ data "azurerm_mssql_server" "sqlserver_identity" {
 
 
 resource "azurerm_mssql_database" "database" {
-    name      = var.sql_database_name
+    name      = var.sql_config.database_name
     server_id = azurerm_mssql_server.sqlserver.id
-    sku_name  = var.sql_sku
+    sku_name  = var.sql_config.sku
 }
 
 
@@ -61,24 +61,24 @@ data "azurerm_virtual_network" "vnet" {
     resource_group_name = data.azurerm_resource_group.network_rg.name
 }
 
-/*data "azurerm_subnet" "pe_subnet" {
+data "azurerm_subnet" "pe_subnet" {
     name                 = "snet-pe-dev"
     virtual_network_name = data.azurerm_virtual_network.vnet.name
     resource_group_name  = data.azurerm_resource_group.network_rg.name
 }
-*/
 
 
-data "azurerm_private_dns_zone" "sql_dns" {
+
+/*data "azurerm_private_dns_zone" "sql_dns" {
     name                = "privatelink.database.windows.net"
     resource_group_name = "rg-tf-sql-dev"
-    }
+    } 
 
 resource "azurerm_private_endpoint" "sql_pe" {
     name                = "pe-sql-prod"
-    location            = var.location
+    location            = var.sql_config.location
     resource_group_name = azurerm_resource_group.sql_rg.name
-    subnet_id = "${data.azurerm_virtual_network.vnet.id}/subnets/snet-pe-dev"
+    subnet_id = data.azurerm_subnet.pe_subnet.id
 
     private_service_connection {
         name                           = "sql-private-connection"
@@ -87,17 +87,17 @@ resource "azurerm_private_endpoint" "sql_pe" {
         is_manual_connection           = false
     }
 
-    private_dns_zone_group {
+/*    private_dns_zone_group {
         name                 = "sql-dns-zone-group"
         private_dns_zone_ids = [data.azurerm_private_dns_zone.sql_dns.id]
-    }
+    } 
 }
 
 #Enable Defender for SQL
 resource "azurerm_storage_account" "audit_logs" {
     name                     = "tfsqlauditci001"
     resource_group_name      = azurerm_resource_group.sql_rg.name
-    location                 = var.location
+    location                 = var.sql_config.location
     account_tier             = "Standard"
     account_replication_type = "LRS"
 
@@ -141,4 +141,20 @@ resource "azurerm_mssql_server_security_alert_policy" "defender" {
     server_name = azurerm_mssql_server.sqlserver.name
     state = "Enabled"
     email_account_admins = true
+}*/
+
+resource "azurerm_mssql_server" "sqlserver" {
+    name                         = var.sql_config.server_name
+    resource_group_name          = var.sql_config.resource_group
+    location                     = var.sql_config.location
+    version                      = "12.0"
+
+    administrator_login          = var.sql_config.admin_login
+    administrator_login_password = var.sql_config.admin_password
+
+    public_network_access_enabled = false
+
+    identity {
+        type = "SystemAssigned"
+    }
 }
