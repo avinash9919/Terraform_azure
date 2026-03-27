@@ -8,12 +8,16 @@ db_sku         = "Basic"*/
 
 databases = {
     db1 = {
-        name = "sqldb-dev"
+        name = "sqldb-tf-dev"
         sku  = "Basic"
     }
 
-    db2 = {
+/*    db2 = {
         name = "sqldb-dev-2"
         sku  = "Basic"
     }
+    db3 = {
+        name = "sqldb-dev-3"
+        sku  = "Basic"
+    }*/
 }
