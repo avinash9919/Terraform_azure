@@ -1,9 +1,7 @@
 resource "azurerm_mssql_database" "db" {
-    name      = var.db_config.db_name
-    server_id = var.db_config.server_id
-    sku_name  = var.db_config.sku
+    for_each = var.databases
 
-    lifecycle {
-        prevent_destroy = false
-    }
+    name      = each.value.name
+    server_id = var.sql_server_id
+    sku_name  = each.value.sku
 }

@@ -1,9 +1,10 @@
+/*
 location       = "centralindia"
 server_name    = "sql-dev-clean"
 admin_login    = "sqladminuser"
 admin_password = "India@12345"
 /*db_name        = "sqldb-dev-2"
-db_sku         = "Basic"*/
+db_sku         = "Basic"
 
 
 databases = {
@@ -19,5 +20,5 @@ databases = {
     db3 = {
         name = "sqldb-dev-3"
         sku  = "Basic"
-    }*/
-}
+    }
+}*/

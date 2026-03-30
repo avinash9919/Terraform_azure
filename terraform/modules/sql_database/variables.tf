@@ -1,7 +1,11 @@
-variable "db_config" {
-    type = object({
-        db_name   = string
-        server_id = string
-        sku       = string
-    })
+variable "databases" {
+    type = map(object({
+        name  = string
+        sku   = string
+    }))
+    }
+
+    variable "sql_server_id" {
+    type = string
 }
+
