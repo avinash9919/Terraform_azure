@@ -1,4 +1,4 @@
-/*module "sql_server" {
+/*/*module "sql_server" {
     source = "../../modules/sql_server"
 
     sql_config  = var.sql_config
@@ -41,7 +41,7 @@ resource "azurerm_resource_group" "rg" {
     location       = var.location
     resource_group = azurerm_resource_group.rg.name
   }
-}*/
+}
 
 module "sql_server" {
   source = "../../modules/sql_server"
@@ -65,4 +65,4 @@ module "sql_database" {
     server_id = module.sql_server.server_id
     sku       = each.value.sku
   }
-}
+} */
