@@ -7,7 +7,7 @@ resource "azurerm_mssql_server" "sql_server" {
     administrator_login    = var.admin_login
     administrator_login_password = var.admin_password
 
-    public_network_access_enabled = true
+    public_network_access_enabled = false
 
     azuread_administrator {
         login_username = var.aad_admin.login_username

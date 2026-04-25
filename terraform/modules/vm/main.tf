@@ -1,12 +1,11 @@
-#public IP
 resource "azurerm_public_ip" "pip" {
   name                = "${var.vm_name}-pip"
   location            = var.location
   resource_group_name = var.resource_group_name
-  allocation_method   = "Static"
-}
 
-#NIC
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
 resource "azurerm_network_interface" "nic" {
   name                = "${var.vm_name}-nic"
   location            = var.location
@@ -20,12 +19,11 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
-#VM
 resource "azurerm_windows_virtual_machine" "vm" {
   name                = var.vm_name
   location            = var.location
   resource_group_name = var.resource_group_name
-  size                = "Standard_D2as_v4"
+  size                = "Standard_D2s_v3"
 
   admin_username = var.admin_username
   admin_password = var.admin_password

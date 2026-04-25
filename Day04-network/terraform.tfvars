@@ -7,4 +7,4 @@ subnet_name = "snet-db-dev"
 address_space = ["10.0.0.0/16"]
 subnet_prefix = ["10.0.1.0/24"]
 
-jump_allowed_ips =["14.141.217.215","168.62.246.146","152.58.114.46"]
+jump_allowed_ips =["14.141.217.215","168.62.246.146","152.58.114.46","223.190.82.146","152.58.121.54"] #added  223.190.82.146 my pricate machine IP
