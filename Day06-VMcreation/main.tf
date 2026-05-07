@@ -64,7 +64,7 @@ resource "azurerm_windows_virtual_machine" "db_vm" {
   name                = "vm-db-dev"
   resource_group_name = azurerm_resource_group.vm_rg.name
   location            = azurerm_resource_group.vm_rg.location
-  size                = "Standard_D2as_v5"
+  size                = "Standard_D2as_v4"
   admin_username      = "azureuser"
   admin_password      = "Password1234!"
 
